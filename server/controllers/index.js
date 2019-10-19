@@ -250,7 +250,6 @@ const notFound = (req, res) => {
 
 
 const createDog = (req, res) => {
-
   if (!req.body.name || !req.body.breed || !req.body.age) {
     return res.status(400).json({ error: 'name, breed and age are all required' });
   }
@@ -261,7 +260,7 @@ const createDog = (req, res) => {
   const dogData = {
     name,
     breed: req.body.breed,
-    age: req.body.age
+    age: req.body.age,
   };
 
   // create a new object of CatModel with the object to save
@@ -301,19 +300,20 @@ const searchDogName = (req, res) => {
     }
 
     // increase age
-    doc.age++;
+    const temp = doc;
+    temp.age++;
 
     // create a new save promise for the database
-    const savePromise = doc.save();
+    const savePromise = temp.save();
 
     // send back the name as a success for now
-    savePromise.then(() => res.json({ name: doc.name, beds: doc.breed, age: doc.age }));
+    savePromise.then(() => res.json({ name: temp.name, beds: temp.breed, age: temp.age }));
 
     // if save error, just return an error for now
-    savePromise.catch((err) => res.json({ err }));
+    savePromise.catch((error) => res.json({ error }));
 
     // match
-    res.json({ name: doc.name, breed: doc.breed, age: doc.age });
+    return res.json({ name: temp.name, breed: temp.breed, age: temp.age });
   });
 };
 
@@ -353,5 +353,5 @@ module.exports = {
   searchName,
   notFound,
   searchDogName,
-  createDog
+  createDog,
 };
