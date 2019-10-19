@@ -16,12 +16,15 @@ const router = (app) => {
   app.get('/page1', controllers.page1);
   app.get('/page2', controllers.page2);
   app.get('/page3', controllers.page3);
+  app.get('/page4', controllers.page4);
   app.get('/getName', controllers.getName);
   app.get('/findByName', controllers.searchName);
 
     // whenever someone goes to the site without a path (AKA the home page), call controllers.index
     // For example www.webpage.com
   app.get('/', controllers.index);
+
+  app.get('/findDogByName', controllers.searchDogName); // make sure gets are put before posts
 
     // catch for any other GET request. The * means anything
   app.get('/*', controllers.notFound);
@@ -32,6 +35,9 @@ const router = (app) => {
 
     // When someone POSTS to /updateLast, call controllers.updateLast
   app.post('/updateLast', controllers.updateLast);
+
+
+  app.post('/createDog', controllers.createDog);
 };
 
 // export the router function
